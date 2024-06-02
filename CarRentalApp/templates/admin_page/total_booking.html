@@ -1,0 +1,141 @@
+{% extends "admin_page/base.html" %}
+{% load static %}
+{% block contents %}
+
+<main class="app-content">
+    <div class="app-title">
+      <div>
+        <h1><i class="fa fa-th-list"></i> Booking Status</h1>
+        
+      </div>
+      <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item"> Booking Status</li>
+        <li class="breadcrumb-item active"><a href="#"> Booking Status Table</a></li>
+      </ul>
+    </div>
+    {% if messages %}
+    <!-- <ul class="alert-warning"> -->
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">
+        {% if message.tags %} {% endif %}{{ message }}
+    </div>
+    {% endfor %}
+    <!-- </ul> -->
+    {% endif %}
+    <div class="row">
+        
+      <div class="col-md-12">
+       
+        <div class="tile">
+            
+          <div class="tile-body">
+              
+            <table class="table table-hover table-bordered" id="sampleTable">
+              <thead class="bg-secondary text-white">
+                <tr>
+                  <th>Image</th>
+                <th>Car Name</th>
+                <th>Customer Name</th>
+                <th>contact No</th>
+                <th>Booking from</th>
+                <th>Booking to</th>
+                
+                <th>Booking Status</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                
+                {% for dt in data %}
+                
+                <tr>
+                  <td><img src="{{dt.carimage.url}}" class="img-fluid img-thumbnail" style="width:60px;
+                    height:60px;
+                    border:1px solid black;
+                    border-radius:100%;" alt="Sheep"></td>
+                    <td>{{dt.car_name}}</td>
+                    <td>{{dt.customer_name}}</td>
+                    <td>{{dt.mobile}}</td>
+                  
+                    <td>{{dt.booking_from}}</td>
+                    <td>{{dt.booking_to}}</td>
+                  <td>
+                    {% if dt.booking_status == False and  dt.journey_status == False %}
+                    <a class="btn btn-sm  btn-success mb-4" href="{% url 'edit_booking' dt.id %}">Confirm</a>
+                    <a class="btn btn-sm  btn-danger mb-4" data-toggle="modal" href="#myModal-{{dt.id }}">Delete</a></td>
+                    <div id="myModal-{{dt.id }}" class="modal fade">
+                      <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                          <div class="modal-header flex-column">                    
+                            <h4 class="modal-title w-100">Are you sure?</h4>  
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Do you really want to delete " {{dt.name}} "?</p>
+                          </div>
+                          <div class="modal-footer justify-content-center">
+                            <a href="" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                            
+                            <a href="{% url 'delete_booking' dt.id %}" class="btn btn-danger ">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>  
+                    {% elif dt.booking_status == True and  dt.journey_status == False %}
+                    <a class="btn btn-sm  btn-warning mb-4 text-white"  href="{% url 'journey_status' dt.id %}">Complete</a>
+                    <a class="btn btn-sm  btn-danger mb-4" data-toggle="modal" href="#myModal-{{dt.id }}">Delete</a></td>
+                    <div id="myModal-{{dt.id }}" class="modal fade">
+                      <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                          <div class="modal-header flex-column">                    
+                            <h4 class="modal-title w-100">Are you sure?</h4>  
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Do you really want to delete " {{dt.name}} "?</p>
+                          </div>
+                          <div class="modal-footer justify-content-center">
+                            <a href="" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                            
+                            <a href="{% url 'delete_booking' dt.id %}" class="btn btn-danger ">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% else %}
+                    <a class="btn btn-sm  btn-danger mb-4" data-toggle="modal" href="#myModal-{{dt.id }}">Delete</a></td>
+                    <div id="myModal-{{dt.id }}" class="modal fade">
+                      <div class="modal-dialog modal-confirm">
+                        <div class="modal-content">
+                          <div class="modal-header flex-column">                    
+                            <h4 class="modal-title w-100">Are you sure?</h4>  
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          </div>
+                          <div class="modal-body">
+                            <p>Do you really want to delete " {{dt.name}} "?</p>
+                          </div>
+                          <div class="modal-footer justify-content-center">
+                            <a href="" class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                            
+                            <a href="{% url 'delete_booking' dt.id %}" class="btn btn-danger ">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  </td>
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+{% endblock contents %}
+
+

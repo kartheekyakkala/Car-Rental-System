@@ -1,0 +1,118 @@
+{% extends "admin_page/base.html" %}
+{% load static %}
+{% block contents %}
+
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-th-list"></i>Car</h1>
+
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item">Car</li>
+      <li class="breadcrumb-item active"><a href="#">Add Car</a></li>
+    </ul>
+  </div>
+
+  <div class="col-md-12">
+    <div class="tile">
+      <a class="btn btn-success mb-4 " href="{% url 'car_list' %}"><i
+          class="fa fa-fw fa-lg fa-arrow-left"></i>Back</a>
+      <h3 class="tile-title">Add Car Form</h3>
+      <div class="tile-body">
+        <form method='POST' action="{% url 'add_car' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Car Name</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="cname" required>
+            </div>
+
+            <div class="col-md-6">
+              <label>Car Image</label>
+              <input type="file" class="form-control" name="img">
+            </div>
+
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Seats</label>
+              <input type="text" class="form-control" placeholder="Enter seats capacity" name="seats">
+            </div>
+            <div class="col-md-6">
+              <label>Fuel</label>
+              <select class="form-control" name="fuel">
+                <option hidden select value="">select an option</option>
+                <option>Petrole</option>
+                <option>Diesel</option>
+                <option>CNG</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Mileage</label>
+              <input type="text" class="form-control" placeholder="Enter mileage " name="mileage" required>
+            </div>
+
+            <div class="col-md-6">
+              <label>Luggage</label>
+              <input type="text" class="form-control" placeholder="Enter luggage capacity" name="luggage">
+            </div>
+
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Rent Price</label>
+              <input type="text" class="form-control" placeholder="Enter Rent Price" name="rp">
+            </div>
+            
+            <div class="col-md-6">
+              <label>City</label>
+              <input type="text" class="form-control" placeholder="Enter City" name="city">
+            </div>
+            
+
+          </div>
+
+          <div class="row mt-3">
+            
+            <div class="col-md-6">
+              <label>Features</label>
+              <textarea  class="form-control" placeholder="Enter car features" name="features"></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label>Description</label>
+              <textarea  class="form-control" placeholder="Enter description" name="descripton"></textarea>
+            </div>
+            
+
+          </div>
+
+
+
+
+
+
+          </div>
+
+
+          <div class="tile-footer mt-3">
+            <button class="btn btn-primary" type="submit"><i
+                class="fa fa-fw fa-lg fa-check-circle"></i>Submit</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary"
+              href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+{% endblock contents %}

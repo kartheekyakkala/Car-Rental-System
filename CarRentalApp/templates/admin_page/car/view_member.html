@@ -1,0 +1,118 @@
+{% extends "admin_page/base.html" %}
+{% load static %}
+{% block contents %}
+
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-th-list"></i>Member</h1>
+
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item">Member</li>
+      <li class="breadcrumb-item active"><a href="#">View Member</a></li>
+    </ul>
+  </div>
+
+  <div class="col-md-12">
+    <div class="tile">
+      <a class="btn btn-success mb-4 " href="{% url 'member_list' %}"><i
+          class="fa fa-fw fa-lg fa-arrow-left"></i>Back</a>
+      <h3 class="tile-title">View Member Data</h3>
+      <div class="tile-body">
+        <form method='POST' action="{% url 'member' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row mt-3">
+            <div class="col-md-6">
+                
+                <img src="{{data.images.url}}" class="img-fluid img-thumbnail" style="width:130px; height:125px;" alt="Sheep">
+              </div>
+
+    
+        
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-12">
+              <label>Name</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="mname" value="{{data.name}}" readonly>
+            </div>
+
+            
+            
+
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Email</label>
+              <input type="email" class="form-control" placeholder="Enter Email" name="email" value="{{data.email}}" readonly>
+            </div>
+            <div class="col-md-6">
+              <label>Gender</label>
+              
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="mname" value="{{data.gender}}" readonly>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Plan</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="mname" value="{{data.plan}}" readonly>
+            </div>
+
+
+
+            <div class="col-md-6">
+              <label>Classes</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="mname" value="{{data.classes}}" readonly>
+            </div>
+
+
+          </div>
+          <div class="row mt-3">
+
+            <div class="col-md-6">
+              <label>Trainer</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " name="mname" value="{{data.trainer}}" readonly>
+            </div>
+
+            
+
+            <div class="col-md-6">
+                <label>Contact Number</label>
+                <input type="text" class="form-control" placeholder="Enter Contact Number" name="cno" value="{{data.contact_no}}" readonly>
+              </div>
+
+
+
+
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Joing Date</label>
+              <input type="text" class="form-control" placeholder="Enter joining Date " name="jdate" value="{{data.joining_date}}" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label>Initial Amount</label>
+              <input type="text" class="form-control" placeholder="Enter Initial Amount" value="{{data.Initial_amount}}" name="intamount" readonly>
+            </div>
+
+          </div>
+
+
+
+
+
+
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+{% endblock contents %}

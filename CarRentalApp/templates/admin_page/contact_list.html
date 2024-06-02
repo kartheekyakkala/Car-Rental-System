@@ -1,0 +1,68 @@
+{% extends "admin_page/base.html" %}
+{% load static %}
+{% block contents %}
+
+<main class="app-content">
+    <div class="app-title">
+      <div>
+        <h1><i class="fa fa-th-list"></i> Contact Table</h1>
+        
+      </div>
+      <ul class="app-breadcrumb breadcrumb side">
+        <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+        <li class="breadcrumb-item">Contact</li>
+        <li class="breadcrumb-item active"><a href="#">Contact Table</a></li>
+      </ul>
+    </div>
+    {% if messages %}
+    <!-- <ul class="alert-warning"> -->
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">
+        {% if message.tags %} {% endif %}{{ message }}
+    </div>
+    {% endfor %}
+    <!-- </ul> -->
+    {% endif %}
+    <div class="row">
+        
+      <div class="col-md-12">
+       
+        <div class="tile">
+                      <div class="tile-body">
+              
+            <table class="table table-hover table-bordered" id="sampleTable">
+              <thead class="bg-secondary text-white">
+                <tr>
+                  
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                 
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for dt in data %}
+                <tr>
+                  
+                  <td>{{dt.name}}</td>
+                  <td>{{dt.email}}</td>
+                  <td>{{dt.contact}}</td>
+                  <td>{{dt.subject}}</td>
+                  <td>{{dt.message}}</td>
+                 
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+{% endblock contents %}
+
+

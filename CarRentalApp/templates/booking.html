@@ -1,0 +1,92 @@
+{% extends "mainbase.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock css %}
+{% block contents %}
+
+
+  
+  <div class="row">
+    {% if messages %}
+  <!-- <ul class="alert-warning"> -->
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}}">
+      {% if message.tags %} {% endif %}{{ message }}
+  </div>
+  {% endfor %}
+  <!-- </ul> -->
+  {% endif %}
+
+    <div class="col-lg-12 mx-auto">
+        <div class="card border-0 shadow">
+            <div class="card-body p-5">
+                
+                <h3>Car Booking Details</h3>
+                <!-- Responsive table -->
+                <div class="table-responsive">
+                    <table class="table m-0" id="example">
+                        <thead>
+                            <tr>
+                              <th>Image</th>
+                              <th>Car Name</th>
+                              <th>Customer Name</th>
+                              <th>contact No</th>
+                              <th>Booking From</th>
+                              <th>Booking To</th>
+                              <th>Confirmation Date</th>
+                              <th>Booking Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for dt in data %}
+                          {% if username == dt.customer_username%}
+                          <tr>
+                            <td><img src="{{dt.carimage.url}}" class="img-fluid img-thumbnail" style="width:60px;
+                              height:60px;
+                              border:1px solid black;
+                              border-radius:100%;" alt="Sheep"></td>
+                            <td>{{dt.car_name}}</td>
+                            <td>{{dt.customer_name}}</td>
+                            <td>{{dt.mobile}}</td>
+                            <td>{{dt.booking_from}}</td>
+                            <td>{{dt.booking_to}}</td>
+                            <td>{{dt.confirm_at}}</td>
+                            <td>
+                              {% if dt.booking_status == False and dt.journey_status == False %}
+                              <button class="btn btn-sm btn-primary mx-2" > Pending </button>
+                              {% elif dt.booking_status == True and dt.journey_status == False %}
+                              <button class="btn btn-sm btn-success mx-2" > Confirm </button>
+                              {% else %}
+                              <button class="btn btn-sm btn-warning text-white mx-2" > Journey Completed </button>
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+  
+
+{% endblock contents %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
+{% endblock js %}
+
+

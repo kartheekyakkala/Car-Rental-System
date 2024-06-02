@@ -1,0 +1,378 @@
+{% extends "mainbase.html" %}
+{% load static %}
+{% block css %}
+<style>
+  .myrow{
+    text-align: center;
+    margin: 30px 30px 60px;
+    user-select: none;
+  }
+
+.pagination{
+  text-align: center;
+  margin: 30px 30px 60px;
+  user-select: none;
+}
+
+.pagination li{
+  display: inline-block;
+  margin: 2px;
+  box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+}
+
+.pagination li a{
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  line-height: 45px;
+}
+
+.previous-page, .next-page{
+  background: #0AB1CE;
+  width: 80px;
+  border-radius: 45px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.previous-page:hover{
+  transform: translateX(-5px);
+}
+
+.next-page:hover{
+  transform: translateX(5px);
+}
+
+.current-page, .dots{
+  background: #ccc;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.active1{
+  background: #0AB1CE;
+}
+
+.disable{
+  background: #ccc;
+}
+</style>
+{% endblock css %}
+{% block contents %}
+<section class="ftco-section ftco-no-pt bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+        <span class="subheading">What we offer</span>
+        <h2 class="mb-2">Featured Vehicles</h2>
+      </div>
+    </div>
+    <div class="row">
+      {% for dt in data %}
+      <div class="col-md-4 card-content">
+        <div class="card car-wrap rounded ftco-animate">
+          <div class="img rounded d-flex align-items-end" style="background-image: url({{dt.carimage.url}});">
+          </div>
+          <div class="text">
+            <h2 class="mb-0"><a href="car-single.html">{{dt.name}}</a></h2>
+            <div class="d-flex mb-3">
+              <span class="cat">Stylish</span>
+              <p class="price ml-auto">${{dt.rent_amount}} <span>/day</span></p>
+            </div>
+            {% if dt.is_available == True %}
+            <p class="d-flex mb-0 d-block"><a href="#myModal-{{dt.id }}" class="btn btn-primary py-2 mr-1"
+                data-toggle="modal" data-target="#myModal-{{dt.id }}">Book now</a>
+
+              <a href="{% url 'car_detail' dt.id %}" class="btn btn-secondary py-2 ml-1">Details</a>
+            </p>
+            
+      
+            {% else %}
+            <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Not Available</a>
+              <a href="{% url 'car_detail' dt.id %}" class="btn btn-secondary py-2 ml-1">Details</a>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="myModal-{{dt.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+              <h5 class="modal-title" id="exampleModalLabel">Car Booking Form </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method='POST' action="{% url 'car_detail' dt.id %}">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+                </div>
+                <div class="form-group">
+                  <label for="zipcode">Zip Code</label>
+                  <input type="text" class="form-control" id="city" name="zipcode" placeholder="Enter zipcode">
+                </div>
+                <div class="form-group">
+                  <label for="address">address</label>
+                  <input type="text" class="form-control" id="address" aria-describedby="emailHelp" name="address"
+                    placeholder="Enter address">
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Booking Form</label>
+                  <input type="datetime-local" class="form-control" id="address" aria-describedby="emailHelp"
+                    name="bk_from">
+                </div>
+                <div class="form-group">
+                  <label for="description">Booking To</label>
+                  <input type="datetime-local" class="form-control" id="address" aria-describedby="emailHelp"
+                    name="bk_to">
+                </div>
+              </div>
+              <div class="modal-footer border-top-0 d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+      {% endfor %}
+    </div>
+    <div class="myrow mt-3">
+      <div class="col text-center">
+        <div class="block-27 pagination">
+          
+          <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+           <li class="page-item current-page active1"><a class="page-link" href="#">1</a></li>
+           <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
+           <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
+           <li class="page-item next-page"><a class="page-link" href="#">&gt;</a></li>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-about">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center"
+        style="background-image: url({% static 'images/about.jpg' %});">
+      </div>
+      <div class="col-md-6 wrap-about ftco-animate">
+        <div class="heading-section heading-section-white pl-md-5">
+          <span class="subheading">About us</span>
+          <h2 class="mb-4">Welcome to Car Rental</h2>
+
+          <p>Car Rental System is developed to manage all cab hiring work online. </p>
+          <p>It useful for car booking agency that are specialized in Hiring cabs to customers.
+             Using this system many car-booking agency are moving ahead to become a pioneer in the vehicle rental industry by completely focusing on customers.
+             Using this system it is very easy for customer to book a car online and car-booking agency can also track their booking online. So it is also very useful for car booking agency. 
+             It is an online system through which customers can view available cabs; register the cabs, view profile and book cabs. Mostly peoples use cab service for their daily transportations need. 
+             It will simplify the task and reduce the paper work. Using this car booking management system car owner can also become partner of car booking agency by giving their car for booking. Online Car rental management system is a web based application that allow users to book a car online.
+             From this system car rental company can manage all car bookings and customer information.
+             User can book cars and admin can confirm the booking and cancel the booking on the basis of availability of the cars and drivers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-7 text-center heading-section ftco-animate">
+        <span class="subheading">Services</span>
+        <h2 class="mb-3">Our Latest Services</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="services services-2 w-100 text-center">
+          <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-wedding-car"></span>
+          </div>
+          <div class="text w-100">
+            <h3 class="heading mb-2">Wedding Ceremony</h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="services services-2 w-100 text-center">
+          <div class="icon d-flex align-items-center justify-content-center"><span
+              class="flaticon-transportation"></span></div>
+          <div class="text w-100">
+            <h3 class="heading mb-2">City Transfer</h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="services services-2 w-100 text-center">
+          <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-car"></span></div>
+          <div class="text w-100">
+            <h3 class="heading mb-2">Airport Transfer</h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="services services-2 w-100 text-center">
+          <div class="icon d-flex align-items-center justify-content-center"><span
+              class="flaticon-transportation"></span></div>
+          <div class="text w-100">
+            <h3 class="heading mb-2">Whole City Tour</h3>
+            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-intro" style="background-image: url({% static 'images/bg_3.jpg' %});">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row justify-content-end">
+      <div class="col-md-6 heading-section heading-section-white ftco-animate">
+        <h2 class="mb-3">Do You Want To Earn With Us? So Don't Be Late.</h2>
+        <a href="#" class="btn btn-primary btn-lg">Become A Driver</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section class="ftco-counter ftco-section img bg-light" id="section-counter">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
+        <div class="block-18">
+          <div class="text text-border d-flex align-items-center">
+            <strong class="number" data-number="5">0</strong>
+            <span>Year <br>Experienced</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
+        <div class="block-18">
+          <div class="text text-border d-flex align-items-center">
+            <strong class="number" data-number="{{carcount}}">0</strong>
+            <span>Total <br>Cars</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
+        <div class="block-18">
+          <div class="text text-border d-flex align-items-center">
+            <strong class="number" data-number="25">0</strong>
+            <span>Happy <br>Customers</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 justify-content-center counter-wrap ftco-animate">
+        <div class="block-18">
+          <div class="text d-flex align-items-center">
+            <strong class="number" data-number="7">0</strong>
+            <span>Total <br>Branches</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock contents %}
+
+{% block js %}
+<script>
+  function getPageList(totalPages, page, maxLength){
+    function range(start, end){
+      return Array.from(Array(end - start + 1), (_, i) => i + start);
+    }
+  
+    var sideWidth = maxLength < 9 ? 1 : 2;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+  
+    if(totalPages <= maxLength){
+      return range(1, totalPages);
+    }
+  
+    if(page <= maxLength - sideWidth - 1 - rightWidth){
+      return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+    }
+  
+    if(page >= totalPages - sideWidth - 1 - rightWidth){
+      return range(1, sideWidth).concat(0, range(totalPages- sideWidth - 1 - rightWidth - leftWidth, totalPages));
+    }
+  
+    return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+  }
+  
+  $(function(){
+    var numberOfItems = $(".card-content .card").length;
+    var limitPerPage = 3; //How many card items visible per a page
+    var totalPages = Math.ceil(numberOfItems / limitPerPage);
+    var paginationSize = 7; //How many page elements visible in the pagination
+    var currentPage;
+  
+    function showPage(whichPage){
+      if(whichPage < 1 || whichPage > totalPages) return false;
+  
+      currentPage = whichPage;
+  
+      $(".card-content .card").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+  
+      $(".pagination li").slice(1, -1).remove();
+  
+      getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+      });
+  
+      $(".previous-page").toggleClass("disable", currentPage === 1);
+      $(".next-page").toggleClass("disable", currentPage === totalPages);
+      return true;
+    }
+  
+    $(".pagination").append(
+      $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+      $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+    );
+  
+    $(".card-content").show();
+    showPage(1);
+  
+    $(document).on("click", ".pagination li.current-page:not(.active)", function(){
+      return showPage(+$(this).text());
+    });
+  
+    $(".next-page").on("click", function(){
+      return showPage(currentPage + 1);
+    });
+  
+    $(".previous-page").on("click", function(){
+      return showPage(currentPage - 1);
+    });
+  });
+  
+
+</script>
+{% endblock js %}

@@ -1,0 +1,118 @@
+{% extends "admin_page/base.html" %}
+{% load static %}
+{% block contents %}
+
+<main class="app-content">
+  <div class="app-title">
+    <div>
+      <h1><i class="fa fa-th-list"></i>Car</h1>
+
+    </div>
+    <ul class="app-breadcrumb breadcrumb side">
+      <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+      <li class="breadcrumb-item">Car</li>
+      <li class="breadcrumb-item active"><a href="#">Edit Car</a></li>
+    </ul>
+  </div>
+
+  <div class="col-md-12">
+    <div class="tile">
+      <a class="btn btn-success mb-4 " href="{% url 'car_list' %}"><i
+          class="fa fa-fw fa-lg fa-arrow-left"></i>Back</a>
+      <h3 class="tile-title">Edit Car Form</h3>
+      <div class="tile-body">
+        <form method='POST' action="{% url 'edit_car' data.id %}" >
+          {% csrf_token %}
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Car Name</label>
+              <input type="text" class="form-control" placeholder="Enter Member Name " value="{{data.name}}" name="cname" required>
+            </div>
+           
+            <div class="col-md-6">
+              <label>City</label>
+              <input type="text" class="form-control" placeholder="Enter City" name="city" value="{{data.city}}">
+            </div>
+
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Seats</label>
+              <input type="text" class="form-control" placeholder="Enter seats capacity" value="{{data.seats}}" name="seats">
+            </div>
+            <div class="col-md-6">
+              <label>Fuel</label>
+              <select class="form-control" name="fuel">
+                <option hidden select>{{data.fuel}}</option>
+                <option>Petrole</option>
+                <option>Diesel</option>
+                <option>CNG</option>
+
+              </select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Mileage</label>
+              <input type="text" class="form-control" placeholder="Enter mileage " value="{{data.mileage}}" name="mileage" required>
+            </div>
+
+            <div class="col-md-6">
+              <label>Luggage</label>
+              <input type="text" class="form-control" placeholder="Enter luggage capacity" value="{{data.luggage}}" name="luggage">
+            </div>
+
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Rent Price</label>
+              <input type="text" class="form-control" placeholder="Enter Rent Price" value="{{data.rent_amount}}" name="rp">
+            </div>
+            
+            <div class="col-md-6">
+              <label>Features</label>
+              <textarea  class="form-control" placeholder="Enter car features" name="features">{{data.features}}</textarea>
+            </div>
+            
+
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label>Added Date</label>
+              <input type="datetime-local" class="form-control" placeholder="Enter Rent Price" value='{{ data.addedat|date:"Y-m-d H:m"}}'
+               name="exp">
+            </div>
+            
+            <div class="col-md-6">
+              <label>Description</label>
+              <textarea  class="form-control" placeholder="Enter description" name="descripton">{{data.descripton}}</textarea>
+            </div>
+            
+
+          </div>
+
+
+
+
+
+
+          </div>
+
+
+          <div class="tile-footer mt-3">
+            <button class="btn btn-primary" type="submit"><i
+                class="fa fa-fw fa-lg fa-check-circle"></i>Submit</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary"
+              href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel</a>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+{% endblock contents %}

@@ -1,0 +1,253 @@
+{% extends "mainbase.html" %}
+{% load static %}
+{% block css %}
+<style>
+  .myrow{
+    text-align: center;
+    margin: 30px 30px 60px;
+    user-select: none;
+  }
+
+.pagination{
+  text-align: center;
+  margin: 30px 30px 60px;
+  user-select: none;
+}
+
+.pagination li{
+  display: inline-block;
+  margin: 2px;
+  box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+}
+
+.pagination li a{
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2em;
+  line-height: 45px;
+}
+
+.previous-page, .next-page{
+  background: #0AB1CE;
+  width: 80px;
+  border-radius: 45px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.previous-page:hover{
+  transform: translateX(-5px);
+}
+
+.next-page:hover{
+  transform: translateX(5px);
+}
+
+.current-page, .dots{
+  background: #ccc;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.active1{
+  background: #0AB1CE;
+}
+
+.disable{
+  background: #ccc;
+}
+</style>
+{% endblock css %}
+{% block contents %}
+
+
+
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('{% static 'images/bg_3.jpg' %}');"
+  data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+      <div class="col-md-9 ftco-animate pb-5">
+        <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="ion-ios-arrow-forward"></i></a></span>
+          <span>Cars <i class="ion-ios-arrow-forward"></i></span></p>
+        <h1 class="mb-3 bread">Choose Your Car</h1>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="ftco-section bg-light">
+  <div class="container">
+    <div class="row">
+      {% for dt in data %}
+      <div class="col-md-4 card-content">
+        <div class="card car-wrap rounded ftco-animate">
+          <div class="img rounded d-flex align-items-end" style="background-image: url({{dt.carimage.url}});">
+          </div>
+          <div class="text">
+            <h2 class="mb-0"><a href="car-single.html">{{dt.name}}</a></h2>
+            <div class="d-flex mb-3">
+              <span class="cat">Price Of rent</span>
+              <p class="price ml-auto">${{dt.rent_amount}} <span>/day</span></p>
+            </div>
+            {% if dt.is_available == True %}
+            <p class="d-flex mb-0 d-block"><a href="#myModal-{{dt.id }}" class="btn btn-primary py-2 mr-1"
+                data-toggle="modal" data-target="#myModal-{{dt.id }}">Book now</a>
+
+              <a href="{% url 'car_detail' dt.id %}" class="btn btn-secondary py-2 ml-1">Details</a>
+            </p>
+            {% else %}
+            <p class="d-flex mb-0 d-block"><a href="#" class="btn btn-primary py-2 mr-1">Not Available</a>
+              <a href="{% url 'car_detail' dt.id %}" class="btn btn-secondary py-2 ml-1">Details</a>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="myModal-{{dt.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+              <h5 class="modal-title" id="exampleModalLabel">Car Booking Form </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method='POST' action="{% url 'car_detail' dt.id %}">
+              {% csrf_token %}
+
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+                </div>
+                <div class="form-group">
+                  <label for="zipcode">Zip Code</label>
+                  <input type="text" class="form-control" id="city" name="zipcode" placeholder="Enter zipcode">
+                </div>
+                <div class="form-group">
+                  <label for="address">address</label>
+                  <input type="text" class="form-control" id="address" aria-describedby="emailHelp" name="address"
+                    placeholder="Enter address">
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Booking Form</label>
+                  <input type="datetime-local" class="form-control" id="address" aria-describedby="emailHelp"
+                    name="bk_from">
+                </div>
+                <div class="form-group">
+                  <label for="description">Booking To</label>
+                  <input type="datetime-local" class="form-control" id="address" aria-describedby="emailHelp"
+                    name="bk_to">
+                </div>
+              </div>
+              <div class="modal-footer border-top-0 d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="row mt-5">
+      <div class="col text-center">
+        <div class="block-27 pagination">
+          
+            <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+           <li class="page-item current-page active"><a class="page-link" href="#">1</a></li>
+           <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
+           <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+           <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
+           <li class="page-item next-page"><a class="page-link" href="#">&gt;</a></li>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock contents %}
+{% block js %}
+<script>
+  function getPageList(totalPages, page, maxLength){
+    function range(start, end){
+      return Array.from(Array(end - start + 1), (_, i) => i + start);
+    }
+  
+    var sideWidth = maxLength < 9 ? 1 : 2;
+    var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+    var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+  
+    if(totalPages <= maxLength){
+      return range(1, totalPages);
+    }
+  
+    if(page <= maxLength - sideWidth - 1 - rightWidth){
+      return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+    }
+  
+    if(page >= totalPages - sideWidth - 1 - rightWidth){
+      return range(1, sideWidth).concat(0, range(totalPages- sideWidth - 1 - rightWidth - leftWidth, totalPages));
+    }
+  
+    return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+  }
+  
+  $(function(){
+    var numberOfItems = $(".card-content .card").length;
+    var limitPerPage = 3; //How many card items visible per a page
+    var totalPages = Math.ceil(numberOfItems / limitPerPage);
+    var paginationSize = 7; //How many page elements visible in the pagination
+    var currentPage;
+  
+    function showPage(whichPage){
+      if(whichPage < 1 || whichPage > totalPages) return false;
+  
+      currentPage = whichPage;
+  
+      $(".card-content .card").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+  
+      $(".pagination li").slice(1, -1).remove();
+  
+      getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+        $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+        .toggleClass("active", item === currentPage).append($("<a>").addClass("page-link")
+        .attr({href: "javascript:void(0)"}).text(item || "...")).insertBefore(".next-page");
+      });
+  
+      $(".previous-page").toggleClass("disable", currentPage === 1);
+      $(".next-page").toggleClass("disable", currentPage === totalPages);
+      return true;
+    }
+  
+    $(".pagination").append(
+      $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Prev")),
+      $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text("Next"))
+    );
+  
+    $(".card-content").show();
+    showPage(1);
+  
+    $(document).on("click", ".pagination li.current-page:not(.active)", function(){
+      return showPage(+$(this).text());
+    });
+  
+    $(".next-page").on("click", function(){
+      return showPage(currentPage + 1);
+    });
+  
+    $(".previous-page").on("click", function(){
+      return showPage(currentPage - 1);
+    });
+  });
+  
+
+</script>
+{% endblock js %}
